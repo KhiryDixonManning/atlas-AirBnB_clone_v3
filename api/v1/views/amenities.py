@@ -23,8 +23,9 @@ class Amenity(BaseModel, Base):
     Returns:
         _type_: _description_
     """
+    __tablename__ = 'amenities'
+    
     if 'models' in globals() and models.storage_t == "db":
-        __tablename__ = 'amenities'
         name = Column(String(128), nullable=False)
     else:
         name = ""
