@@ -5,7 +5,6 @@ Contains class BaseModel
 
 
 from datetime import datetime
-import models
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
@@ -17,13 +16,16 @@ Base = declarative_base()
 
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
+
+    from models import storage_type
+    storage_type = storage_type
+
+    __table_args__ = {'extend_existing': True}
+
     id = Column(String(60), primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
-    if 'models' in globals() and models.storage_t == "db":
-        __abstract__ = True
-        
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
         if kwargs:
@@ -45,10 +47,6 @@ class BaseModel:
             self.created_at = datetime.utcnow()
             self.updated_at = self.created_at
 
-    if 'models' in globals() and models.storage_t == "db":
-        """class won't be initialized directly"""
-        __abstract__ = True
-
     def __str__(self):
         """String representation of the BaseModel class"""
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
@@ -56,9 +54,10 @@ class BaseModel:
 
     def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
-        self.updated_at = datetime.utcnow()
-        models.storage.new(self)
-        models.storage.save()
+        from models import storage
+        self.updated_at = datetime.now()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of the instance"""
@@ -74,4 +73,5 @@ class BaseModel:
 
     def delete(self):
         """delete the current instance from the storage"""
-        models.storage.delete(self)
+        from models import storage
+        storage.delete(self)

@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship
 
 class Amenity(BaseModel, Base):
     """Representation of Amenity, used same syntax in base_model"""
-    
+
     __tablename__ = "amenities"
 
     if BaseModel.storage_type == "db":
@@ -22,7 +22,7 @@ class Amenity(BaseModel, Base):
             viewonly=False)
     else:
         name = ""
-        
+
     def __init__(self, *args, **kwargs):
         """initializes Amenity"""
         super().__init__(*args, **kwargs)
