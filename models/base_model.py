@@ -12,10 +12,7 @@ import uuid
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
-if models.storage_t == "db":
-    Base = declarative_base()
-else:
-    Base = object
+Base = declarative_base()
 
 
 class BaseModel:
@@ -45,6 +42,10 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = self.created_at
+
+    if 'models' in globals() and models.storage_t == "db":
+        """class won't be initialized directly"""
+        __abstract__ = True
 
     def __str__(self):
         """String representation of the BaseModel class"""
