@@ -8,6 +8,26 @@ from api.v1.views import app_views
 from flask import Flask, abort, jsonify, request
 from models import storage
 from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.base_model import Base
+from sqlAlchemy import Column, String
+import models
+
+class Amenity(BaseModel, Base):
+    """_summary_
+
+    Args:
+        BaseModel (_type_): _description_
+        Base (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    if 'models' in globals() and models.storage_t == "db":
+        __tablename__ = 'amenities'
+        name = Column(String(128), nullable=False)
+    else:
+        name = ""
 
 
 @app_views.route("/amenities", methods=["GET"], strict_slashes=False)
