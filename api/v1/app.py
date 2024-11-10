@@ -27,15 +27,7 @@ def error_404(exception):
     return jsonify({"error": "Not found"}), 404
 
 
-def start_flask():
-    """
-    starts flask - sets host and port from getenv
-    if 'name == main' runs this method
-    """
-    app.run(host=getenv('HBNB_API_HOST', default='localhost'),
-            port=getenv('HBNB_API_PORT'),
-            threaded=True, debug=True)
-
-
 if __name__ == "__main__":
-    start_flask()
+    host = getenv("HBNB_API_HOST", "0.0.0.0")
+    port = getenv("HBNB_API_PORT", 5000)
+    app.run(host=host, port=port, threaded=True)
