@@ -10,7 +10,7 @@ from sqlalchemy import Column, String
 
 class Amenity(BaseModel, Base):
     """Representation of Amenity, used same syntax in base_model"""
-    if 'models' in globals() and models.storage_t == 'db':
+    if models.storage_t == 'db':
         __tablename__ = 'amenities'
         name = Column(String(128), nullable=False)
     else:
