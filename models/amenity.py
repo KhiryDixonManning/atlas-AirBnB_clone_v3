@@ -12,11 +12,10 @@ class Amenity(BaseModel, Base):
     """Representation of Amenity, used same syntax in base_model"""
     __tablename__ = 'amenities'
 
-    if models.storage_t == 'db':
-        name = Column(String(128), nullable=False)
-    else:
-        name = ""
+    name = Column(String(128), nullable=False)
 
     def __init__(self, *args, **kwargs):
         """initializes Amenity"""
         super().__init__(*args, **kwargs)
+        if models.storage_t != "db":
+            self.name = ""
