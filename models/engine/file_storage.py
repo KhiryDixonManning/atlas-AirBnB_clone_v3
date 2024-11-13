@@ -94,3 +94,5 @@ class FileStorage:
                 if type(obj).__name__ == cls.__name__:
                     count += 1
             return count
+
+    models = Storage()
